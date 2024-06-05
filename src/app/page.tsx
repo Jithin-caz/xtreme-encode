@@ -1,14 +1,14 @@
-import Register from "@/components/page";
+import Register from "@/app/signin/page";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 
 import Image from "next/image";
 
 export default function Home() {
   return (
-   <main className=" bg-black">
-   
+   <main className=" bg-black re">
+    <i><img src="images/encide_logo-removebg-preview.png" className=" w-40 absolute z-30 right-2" style={{ top:'-3rem' }} alt="" /></i>
    <HeroHighlight className=" font-bold text-7xl px-5 flex flex-col gap-5">
-    
+   
     <div className="text-white  font-bold">
     <div className=" text-xl font-medium text-white">ENCIDE MACE in colaboration with IEEE XTREME region 10 presents
     </div>
@@ -25,7 +25,7 @@ export default function Home() {
      </div>
      <div className=" text-sm font-normal max-w-96  col-span-1 border-slate-600 rounded-sm backdrop-blur p-4  border flex items-center justify-center"> 
      <p >
-    <span className=" text-3xl  text-blue-200 font-thin  font-sans">ENCIDE MACE</span>  is a coding club for passionate learners to compete, create projects, and foster a vibrant coding community. The club helps students to sharpen their coding skills, build confidence, and prepare for future opportunities in the tech industry.
+    <span className=" text-3xl text-blue-200 font-thin  font-sans">ENCIDE MACE</span>  is a coding club for passionate learners to compete, create projects, and foster a vibrant coding community. The club helps students to sharpen their coding skills, build confidence, and prepare for future opportunities in the tech industry.
      </p>
      </div>
      <div className=" text-sm font-normal max-w-96  col-span-1 border-slate-600 rounded-sm backdrop-blur p-4  border flex items-center justify-center"> 

@@ -1,11 +1,34 @@
 "use client"
 
-import { useState } from "react"
+import { GithubAuthProvider, signInWithPopup } from "firebase/auth"
+
+import { useState,useEffect,useRef } from "react"
+
+import { provider,auth,gitprovider } from "../config"
+
 
 export default function Register()
 {
+    const ref=useRef(null)
+   
+    
+    const [value,setvalue]=useState<string | null>("")
+   
+    function handleauth()
+    {
+        
+        signInWithPopup(auth,gitprovider).then((data)=>{
+            setvalue(data.user.email)
+         if(value!="")
+         //@ts-ignore
+         ref.current.click()
+            // localStorage.setItem("email",data.user.email)
+        })
+    }
+   
     const [signup,setSignup]=useState(true)
     return <div className=" grid grid-cols-1 lg:grid-cols-2 h-lvh" id="REGISTER">
+       
         <div className=" bg-white" style={{ background:'url("https://i.pinimg.com/736x/4e/99/61/4e996161b1ff9177cd41ce737c8e00ca.jpg")',backgroundPosition:'center' }}>
             <div className=" w-full bg-opacity-55 bg-black text-white font-semibold text-5xl h-full flex justify-center items-center gap-0">
                 <div className=" py-5 flex flex-col"><p className=" text-center">Ready for battle?</p> 
@@ -20,8 +43,15 @@ export default function Register()
        <button className=' rounded-md max-w-28 mt-6 h-14 bg-slate-800 hover:bg-slate-900 ease-in-out duration-500  text-lg font-semibold hover:text-2xl p-2 px-3 text-white' type="submit">submit</button>
       <div className=" pt-4 flex"><p className=" opacity-60">{signup? 'already register?':'new here?'} </p><button className=" text-white pl-1" onClick={()=>setSignup(!signup)}>{!signup? 'Signup':'login'}</button></div> 
       <div className=" w-full flex  justify-center items-center pt-8 ">
+        <button onClick={handleauth} className=" w-fit flex justify-center items-center bg-slate-800 rounded-md p-2 overflow-clip group relative">
+        <i className=" pr-2 group-hover:translate-x-10 transition ease-in-out duration-700"><img className=" w-8" src="https://img.icons8.com/color/48/google-logo.png" alt="" /></i><p className="group-hover:translate-y-40 transition ease-in-out duration-700">sign in with google</p><p className=" -translate-y-9 group-hover:translate-y-0 transition ease-in-out duration-700 absolute right-12">lets go!!</p> </button></div>
+        <div className=" w-full flex  justify-center items-center pt-2 ">
         <button className=" w-fit flex justify-center items-center bg-slate-800 rounded-md p-2 overflow-clip group relative">
-        <i className=" pr-2 group-hover:translate-x-12 transition ease-in-out duration-700"><img className=" w-8" src="https://img.icons8.com/color/48/google-logo.png" alt="" /></i><p className="group-hover:translate-y-40 transition ease-in-out duration-700">sign in with google</p><p className=" -translate-y-9 group-hover:translate-y-0 transition ease-in-out duration-700 absolute right-10">lets go!!</p> </button></div></form>
+        <i className=" pr-2 group-hover:translate-x-8 transition ease-in-out duration-700"><img className=" w-8" 
+        src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/48/external-github-social-media-tanah-basah-glyph-tanah-basah.png" 
+        alt="" /></i><p className="group-hover:translate-y-40 transition ease-in-out duration-700">sign in with github</p><p className=" -translate-y-9 group-hover:translate-y-0 transition ease-in-out duration-700 absolute right-10">lets code!!</p> </button></div>
+        </form>
         </div>
+        <a ref={ref} className=" text-white" href="/dashboard" style={{ display:'none' }}>dah</a>
     </div>
 }
