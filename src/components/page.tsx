@@ -7,7 +7,8 @@ export default function Register()
     const [signup,setSignup]=useState(true)
     return <div className=" grid grid-cols-1 lg:grid-cols-2 h-dvh" id="REGISTER">
         <div className=" bg-white" style={{ background:'url("https://i.pinimg.com/736x/4e/99/61/4e996161b1ff9177cd41ce737c8e00ca.jpg")',backgroundPosition:'center' }}>
-            <div className=" w-full bg-opacity-55 bg-black text-white font-semibold text-5xl h-full flex justify-center items-center py-5">Ready for battle?</div> </div> 
+            <div className=" w-full bg-opacity-55 bg-black text-white font-semibold text-5xl h-full flex justify-center items-center">
+                <div className=" py-5">Ready for battle?</div> </div> </div> 
         <div className=" bg-slate-950 p-3">
         <form action="" className='pb-8 p-3 border-2 border-slate-700 text-white bg-transparent grid gap-3 shadow-2xl rounded-lg mt-5 '>
             <h1 className=" pt-5 text-2xl font-semibold">{signup? 'Signup':'login'}</h1>
