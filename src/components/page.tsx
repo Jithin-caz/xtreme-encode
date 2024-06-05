@@ -5,7 +5,7 @@ import { useState } from "react"
 export default function Register()
 {
     const [signup,setSignup]=useState(true)
-    return <div className=" grid grid-cols-1 lg:grid-cols-2 h-dvh" id="REGISTER">
+    return <div className=" grid grid-cols-1 lg:grid-cols-2 h-lvh" id="REGISTER">
         <div className=" bg-white" style={{ background:'url("https://i.pinimg.com/736x/4e/99/61/4e996161b1ff9177cd41ce737c8e00ca.jpg")',backgroundPosition:'center' }}>
             <div className=" w-full bg-opacity-55 bg-black text-white font-semibold text-5xl h-full flex justify-center items-center">
                 <div className=" py-5">Ready for battle?</div> </div> </div> 
