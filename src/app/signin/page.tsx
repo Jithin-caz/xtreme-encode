@@ -1,7 +1,7 @@
 "use client"
 
 import { async } from "@firebase/util"
-import { GithubAuthProvider, signInWithPopup } from "firebase/auth"
+import { createUserWithEmailAndPassword, GithubAuthProvider, signInWithPopup } from "firebase/auth"
 
 import { useState,useEffect,useRef } from "react"
 
@@ -15,26 +15,20 @@ export default function Register()
     
     const [value,setvalue]=useState<any | null>()
    
-    function handleauth()
+    async function handleauth()
     {
-        try{
-            signInWithPopup(auth,provider).then((data)=>{
+      
+           await signInWithPopup(auth,provider).then((data)=>{
                 setvalue(data.user)
              if(data.user)
              //@ts-ignore
              ref.current.click()
                 // localStorage.setItem("email",data.user.email)
-            })
-        }
-        catch(error)
-        {
-            alert("you have already signedup using github. Please choose signup with github")
-        }
-       
+            }).catch((err)=> alert("you have already signedup using github. Please choose signup with github")) 
     }
-     function handleauthgit()
+    async function handleauthgit()
     {
-            signInWithPopup(auth,gitprovider).then((data)=>{
+            await signInWithPopup(auth,gitprovider).then((data)=>{
                 const credential=GithubAuthProvider.credentialFromResult(data)
                 const token=credential?.accessToken
     
@@ -44,10 +38,29 @@ export default function Register()
              //@ts-ignore
              ref.current.click()
                 // localStorage.setItem("email",data.user.email)
-            }).catch((error)=> alert("you have already signedup using google. Please choose signup with google"))
-        
-        
+            }).catch((error)=> alert("you have already signedup using google. Please choose signin with google"))
+          
     }
+    const [email,setEmail]=useState("")
+    const [password,setPassword]=useState("")
+    const [confpassword,setconfPassword]=useState("")
+
+const handleformSignup=async(e:any)=>{
+    e.preventDefault()
+    if(password!=confpassword)
+        alert("passwords dont match")
+    await createUserWithEmailAndPassword(auth,email,password).then((data)=>{
+           
+        console.log(data.user)
+            setvalue(data.user)
+            if(data.user)
+            //@ts-ignore
+            ref.current.click()
+    }).catch((err)=>{
+        setSignup(false)
+        alert('email already exist. Please login')
+    })
+}
    
     const [signup,setSignup]=useState(true)
     return <div className=" grid grid-cols-1 lg:grid-cols-2 h-lvh" id="REGISTER">
@@ -57,12 +70,12 @@ export default function Register()
                 <div className=" py-5 flex flex-col px-3"><p className=" text-center">Ready for battle?</p> 
                 <span className=" h-0.5 w-full bg-white"></span></div> </div> </div> 
         <div className=" bg-slate-950 p-3">
-        <form action="" className='pb-8 p-3 border-2 border-slate-700 text-white bg-transparent grid gap-3 shadow-2xl rounded-lg mt-5 '>
+        <form onSubmit={signup?handleformSignup:()=>console.log('failre')} className='pb-8 p-3 border-2 border-slate-700 text-white bg-transparent grid gap-3 shadow-2xl rounded-lg mt-5 '>
             <h1 className=" pt-5 text-2xl font-semibold">{signup? 'Signup':'login'}</h1>
            {signup&&<input required placeholder='name'  className='ease-in-out duration-500 focus:text-lg outline-none w-full mt-4 p-2 py-4  bg-transparent  border-b-2 border-slate-800 hover:border-white' type="text" name="" id="" />} 
-        <input required placeholder='email' className='ease-in-out duration-500 focus:text-lg outline-none w-full p-2 py-4 mt-4 bg-transparent border-b-2  border-slate-800 hover:border-white' type="email" name="" id="" />
-       <input required placeholder='password' className='ease-in-out duration-500 focus:text-lg outline-none w-full mt-4 p-2 py-4  bg-transparent  border-b-2  border-slate-800 hover:border-white' type="password" name="" id="" />
-       <input required placeholder='confirm password' className='ease-in-out duration-500 focus:text-lg outline-none w-full mt-4 p-2 py-4  bg-transparent  border-b-2  border-slate-800 hover:border-white' type="text" name="" id="" />
+        <input onChange={(e)=>setEmail(e.target.value)} required placeholder='email' className='ease-in-out duration-500 focus:text-lg outline-none w-full p-2 py-4 mt-4 bg-transparent border-b-2  border-slate-800 hover:border-white' type="email" name="" id="" />
+       <input onChange={(e)=>setPassword(e.target.value)}  required placeholder='password' className='ease-in-out duration-500 focus:text-lg outline-none w-full mt-4 p-2 py-4  bg-transparent  border-b-2  border-slate-800 hover:border-white' type="password" name="" id="" />
+       <input onChange={(e)=>setconfPassword(e.target.value)} required placeholder='confirm password' className='ease-in-out duration-500 focus:text-lg outline-none w-full mt-4 p-2 py-4  bg-transparent  border-b-2  border-slate-800 hover:border-white' type="text" name="" id="" />
        <button className=' rounded-md max-w-28 mt-6 h-14 bg-slate-800 hover:bg-slate-900 ease-in-out duration-500  text-lg font-semibold hover:text-2xl p-2 px-3 text-white' type="submit">submit</button>
       <div className=" pt-4 flex"><p className=" opacity-60">{signup? 'already register?':'new here?'} </p><button className=" text-white pl-1" onClick={()=>setSignup(!signup)}>{!signup? 'Signup':'login'}</button></div> 
       <div className=" w-full flex  justify-center items-center pt-8 ">
