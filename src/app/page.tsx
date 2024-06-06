@@ -1,9 +1,28 @@
+"use client"
+import { useEffect, useState } from "react";
 import Register from "@/app/signin/page";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 
 import Image from "next/image";
+import axios from "axios";
 
 export default function Home() {
+  const [samp,setSamp]=useState("nothing")
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api');
+        console.log(response);
+        setSamp(response.data.users[0].name)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+    
+  }, []);
+
   return (
    <main className=" bg-black re">
     <i><img src="images/encide_logo-removebg-preview.png" className=" w-40 absolute z-30 right-2" style={{ top:'-3rem' }} alt="" /></i>
@@ -12,7 +31,7 @@ export default function Home() {
     <div className="text-white  font-bold">
     <div className=" text-xl font-medium text-white">ENCIDE MACE in colaboration with IEEE XTREME region 10 presents
     </div>
-      Xtreme Encode</div>
+      Xtreme Encode {samp}</div>
     <Highlight>
   code,more code, repeat
     </Highlight>
