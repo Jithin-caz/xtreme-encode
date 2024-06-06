@@ -4,13 +4,13 @@ import {getFirestore } from "firebase/firestore";
 import {getAuth,GithubAuthProvider,GoogleAuthProvider} from 'firebase/auth'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCf0K3lB5agFceJUrMkMcE_AdpMZYhSGWc",
-    authDomain: "xtreme-encode.firebaseapp.com",
-    projectId: "xtreme-encode",
-    storageBucket: "xtreme-encode.appspot.com",
-    messagingSenderId: "281493172195",
-    appId: "1:281493172195:web:0452f21965395dfdd1bad6",
-    measurementId: "G-EZT4HS0LQN"
+    apiKey: process.env.NEXT_PUBLIC_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_AUTHDOMAIN,
+    projectId: process.env.NEXT_PUBLIC_PROJECTID,
+    storageBucket: process.env.NEXT_PUBLIC_STORAGEBUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_MESSAGINGSENDERID,
+    appId: process.env.NEXT_PUBLIC_API_ID,
+    measurementId: process.env.NEXT_PUBLIC_MEASUREMENTID
   };
   
 

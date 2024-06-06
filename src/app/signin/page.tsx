@@ -1,5 +1,6 @@
 "use client"
 
+import { async } from "@firebase/util"
 import { GithubAuthProvider, signInWithPopup } from "firebase/auth"
 
 import { useState,useEffect,useRef } from "react"
@@ -12,18 +13,40 @@ export default function Register()
     const ref=useRef(null)
    
     
-    const [value,setvalue]=useState<string | null>("")
+    const [value,setvalue]=useState<any | null>()
    
     function handleauth()
     {
+        try{
+            signInWithPopup(auth,provider).then((data)=>{
+                setvalue(data.user)
+             if(data.user)
+             //@ts-ignore
+             ref.current.click()
+                // localStorage.setItem("email",data.user.email)
+            })
+        }
+        catch(error)
+        {
+            alert("you have already signedup using github. Please choose signup with github")
+        }
+       
+    }
+     function handleauthgit()
+    {
+            signInWithPopup(auth,gitprovider).then((data)=>{
+                const credential=GithubAuthProvider.credentialFromResult(data)
+                const token=credential?.accessToken
+    
+                setvalue(data.user)
+                console.log(data.user)
+             if(data.user)
+             //@ts-ignore
+             ref.current.click()
+                // localStorage.setItem("email",data.user.email)
+            }).catch((error)=> alert("you have already signedup using google. Please choose signup with google"))
         
-        signInWithPopup(auth,gitprovider).then((data)=>{
-            setvalue(data.user.email)
-         if(value!="")
-         //@ts-ignore
-         ref.current.click()
-            // localStorage.setItem("email",data.user.email)
-        })
+        
     }
    
     const [signup,setSignup]=useState(true)
@@ -31,7 +54,7 @@ export default function Register()
        
         <div className=" bg-white" style={{ background:'url("https://i.pinimg.com/736x/4e/99/61/4e996161b1ff9177cd41ce737c8e00ca.jpg")',backgroundPosition:'center' }}>
             <div className=" w-full bg-opacity-55 bg-black text-white font-semibold text-5xl h-full flex justify-center items-center gap-0">
-                <div className=" py-5 flex flex-col"><p className=" text-center">Ready for battle?</p> 
+                <div className=" py-5 flex flex-col px-3"><p className=" text-center">Ready for battle?</p> 
                 <span className=" h-0.5 w-full bg-white"></span></div> </div> </div> 
         <div className=" bg-slate-950 p-3">
         <form action="" className='pb-8 p-3 border-2 border-slate-700 text-white bg-transparent grid gap-3 shadow-2xl rounded-lg mt-5 '>
@@ -46,12 +69,12 @@ export default function Register()
         <button onClick={handleauth} className=" w-fit flex justify-center items-center bg-slate-800 rounded-md p-2 overflow-clip group relative">
         <i className=" pr-2 group-hover:translate-x-10 transition ease-in-out duration-700"><img className=" w-8" src="https://img.icons8.com/color/48/google-logo.png" alt="" /></i><p className="group-hover:translate-y-40 transition ease-in-out duration-700">sign in with google</p><p className=" -translate-y-9 group-hover:translate-y-0 transition ease-in-out duration-700 absolute right-12">lets go!!</p> </button></div>
         <div className=" w-full flex  justify-center items-center pt-2 ">
-        <button className=" w-fit flex justify-center items-center bg-slate-800 rounded-md p-2 overflow-clip group relative">
+        <button onClick={handleauthgit} className=" w-fit flex justify-center items-center bg-slate-800 rounded-md p-2 overflow-clip group relative">
         <i className=" pr-2 group-hover:translate-x-8 transition ease-in-out duration-700"><img className=" w-8" 
         src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/48/external-github-social-media-tanah-basah-glyph-tanah-basah.png" 
         alt="" /></i><p className="group-hover:translate-y-40 transition ease-in-out duration-700">sign in with github</p><p className=" -translate-y-9 group-hover:translate-y-0 transition ease-in-out duration-700 absolute right-10">lets code!!</p> </button></div>
         </form>
         </div>
-        <a ref={ref} className=" text-white" href="/dashboard" style={{ display:'none' }}>dah</a>
+        <a ref={ref} className=" text-white" href="/dashboard" style={{ display:'none' }}></a>
     </div>
 }
