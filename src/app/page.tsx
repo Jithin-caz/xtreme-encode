@@ -3,26 +3,7 @@ import { useEffect, useState } from "react";
 import Register from "@/app/signin/page";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 
-import Image from "next/image";
-import axios from "axios";
-
 export default function Home() {
-  const [samp,setSamp]=useState("nothing")
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('/api');
-        console.log(response);
-        setSamp(response.data.users[0].name)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-    
-  }, []);
-
   return (
 
     <main className=" bg-black re">

@@ -50,6 +50,7 @@ export default function Register() {
               <input
                 type="text"
                 name="name"
+                required
                 placeholder="Name"
                 value={userData.name}
                 onChange={handleChange}
@@ -60,6 +61,7 @@ export default function Register() {
               <input
                 type="text"
                 name="country"
+                required
                 placeholder="Country"
                 value={userData.country}
                 onChange={handleChange}
@@ -68,6 +70,7 @@ export default function Register() {
               <input
                 type="text"
                 name="ieeeId"
+                required
                 placeholder="IEEE ID"
                 value={userData.ieeeId}
                 onChange={handleChange}
@@ -78,6 +81,7 @@ export default function Register() {
               <input
                 type="text"
                 name="college"
+                required
                 placeholder="College"
                 value={userData.college}
                 onChange={handleChange}
@@ -88,6 +92,7 @@ export default function Register() {
               <input
                 type="text"
                 name="branch"
+                required
                 placeholder="IEEE Student Branch"
                 value={userData.branch}
                 onChange={handleChange}
@@ -97,6 +102,7 @@ export default function Register() {
             <div className="flex flex-col pb-8 gap-x-4">
               <input
                 type="tel"
+                required
                 name="contact"
                 placeholder="Contact No."
                 value={userData.contact}
@@ -108,6 +114,7 @@ export default function Register() {
               <input
                 type="text"
                 name="teamName"
+                required
                 placeholder="Team Name"
                 value={userData.teamName}
                 onChange={handleChange}
