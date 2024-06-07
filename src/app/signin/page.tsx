@@ -1,7 +1,7 @@
 "use client"
 
 import { async } from "@firebase/util"
-import { createUserWithEmailAndPassword, GithubAuthProvider, signInWithPopup } from "firebase/auth"
+import { createUserWithEmailAndPassword, GithubAuthProvider, signInWithPopup,sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth"
 
 import { useState,useEffect,useRef } from "react"
 
@@ -45,17 +45,32 @@ export default function Register()
     const [password,setPassword]=useState("")
     const [confpassword,setconfPassword]=useState("")
 
+const handlesubmitlogin=async(e:any)=>
+{
+    e.preventDefault()
+    if(password!=confpassword)
+        alert("passwords dont match")
+        await signInWithEmailAndPassword(auth,email,password).then((data)=>{console.log(`login data is ${data.user.email} is verified? ${data.user.emailVerified}`)
+        setvalue(data.user)
+            if(data.user)
+            //@ts-ignore
+             ref.current.click()
+    }).catch((err)=>alert('error'))
+}
+
 const handleformSignup=async(e:any)=>{
     e.preventDefault()
     if(password!=confpassword)
         alert("passwords dont match")
     await createUserWithEmailAndPassword(auth,email,password).then((data)=>{
-           
+        //@ts-ignore
+         sendEmailVerification(auth.currentUser).then(()=>alert("email verification link sent"))  
         console.log(data.user)
             setvalue(data.user)
             if(data.user)
             //@ts-ignore
-            ref.current.click()
+             ref.current.click()
+            console.log(`email verified? ${data.user.emailVerified}`)
     }).catch((err)=>{
         setSignup(false)
         alert('email already exist. Please login')
@@ -70,7 +85,7 @@ const handleformSignup=async(e:any)=>{
                 <div className=" py-5 flex flex-col px-3"><p className=" text-center">Ready for battle?</p> 
                 <span className=" h-0.5 w-full bg-white"></span></div> </div> </div> 
         <div className=" bg-slate-950 p-3">
-        <form onSubmit={signup?handleformSignup:()=>console.log('failre')} className='pb-8 p-3 border-2 border-slate-700 text-white bg-transparent grid gap-3 shadow-2xl rounded-lg mt-5 '>
+        <form onSubmit={signup?handleformSignup:handlesubmitlogin} className='pb-8 p-3 border-2 border-slate-700 text-white bg-transparent grid gap-3 shadow-2xl rounded-lg mt-5 '>
             <h1 className=" pt-5 text-2xl font-semibold">{signup? 'Signup':'login'}</h1>
            {signup&&<input required placeholder='name'  className='ease-in-out duration-500 focus:text-lg outline-none w-full mt-4 p-2 py-4  bg-transparent  border-b-2 border-slate-800 hover:border-white' type="text" name="" id="" />} 
         <input onChange={(e)=>setEmail(e.target.value)} required placeholder='email' className='ease-in-out duration-500 focus:text-lg outline-none w-full p-2 py-4 mt-4 bg-transparent border-b-2  border-slate-800 hover:border-white' type="email" name="" id="" />
