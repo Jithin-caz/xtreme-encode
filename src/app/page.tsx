@@ -20,7 +20,7 @@ export default function Home() {
           <div className=" text-xl font-medium text-white">
             ENCIDE MACE in colaboration with IEEE XTREME region 10 presents
           </div>
-          Xtreme Encode {process.env.NEXT_PUBLIC_API_KEY}
+          Xtreme Encode 
         </div>
         <Highlight>code,more code, repeat</Highlight>
         <a
