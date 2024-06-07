@@ -24,7 +24,7 @@ export default function Register()
              //@ts-ignore
              ref.current.click()
                 // localStorage.setItem("email",data.user.email)
-            }).catch((err)=> alert("you have already signedup using github. Please choose signup with github")) 
+            }).catch((err)=> alert(err)) 
     }
     async function handleauthgit()
     {
