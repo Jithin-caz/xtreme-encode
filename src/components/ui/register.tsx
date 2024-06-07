@@ -39,7 +39,7 @@ export default function Register() {
   };
 
   return (
-    <div className="flex flex-col-reverse place-items-center lg:place-items-stretch px-16 lg:px-48 py-12 container lg:grid lg:grid-cols-3">
+    <div className="flex  flex-col-reverse place-items-center lg:place-items-stretch px-16 lg:px-48 py-12  lg:grid lg:grid-cols-3">
       <div className="lg:col-span-2">
         <div className="form px-16 lg:pl-8 lg:pr-4 lg:mr-4 lg:border-r-2 lg:border-slate-300">
           <div className="font-thin text-2xl pb-8">

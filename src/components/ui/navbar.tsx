@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <div className="container grid grid-cols-2 text-white px-6 md:px-12 lg:px-24 py-4">
+    <div className="grid grid-cols-2 text-white px-6 md:px-12 lg:px-24 py-4">
       <div className="col-span-1">
         <Image
           src="/images/encide_logo-removebg-preview.png"

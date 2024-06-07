@@ -4,13 +4,13 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth, GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC8Yx1ICtFhwjetqB7sBO8rURGEhPlZzeE",
-  authDomain: "tensile-axon-373718.firebaseapp.com",
-  projectId: "tensile-axon-373718",
-  storageBucket: "tensile-axon-373718.appspot.com",
-  messagingSenderId: "609997090509",
-  appId: "1:609997090509:web:d573ccb0d2cc6c90684384",
-  measurementId: "G-P01LKLCCZ5",
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTHDOMAIN,
+  projectId:process.env.NEXT_PUBLIC_PROJECTID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGEBUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGINGSENDERID,
+  appId: process.env.NEXT_PUBLIC_API_ID,
+  measurementId:process.env.NEXT_PUBLIC_MEASUREMENTID,
 };
 
 const app = initializeApp(firebaseConfig);

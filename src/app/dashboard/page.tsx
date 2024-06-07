@@ -4,10 +4,10 @@ import Register from "@/components/ui/register";
 
 export default function Dashboard() {
   return (
-    <section className="text-white">
+    <div className="text-white">
       <Navbar></Navbar>
       <Register></Register>
-      <Dash></Dash>
-    </section>
+      {/* <Dash></Dash> */}
+    </div>
   );
 }
