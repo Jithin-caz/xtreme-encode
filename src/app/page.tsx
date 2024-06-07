@@ -6,7 +6,6 @@ import Loading from "./loading";
 
 export default function Home() {
   return (
-    <Suspense fallback={<Loading/>}>
       <main className=" bg-black re">
       <i>
       
@@ -71,7 +70,7 @@ export default function Home() {
       <Register />
     </main>
 
-    </Suspense>
+  
     
   );
 }
