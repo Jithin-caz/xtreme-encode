@@ -24,7 +24,7 @@ export default function Register()
              //@ts-ignore
              ref.current.click()
                 // localStorage.setItem("email",data.user.email)
-            }).catch((err)=> alert(err)) 
+            }).catch((err)=> alert("email or password does'nt match. If error persists, contact owner ")) 
     }
     async function handleauthgit()
     {

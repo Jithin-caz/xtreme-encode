@@ -1,13 +1,15 @@
 "use client"
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Register from "@/app/signin/page";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
+import Loading from "./loading";
 
 export default function Home() {
   return (
-
-    <main className=" bg-black re">
+    <Suspense fallback={<Loading/>}>
+      <main className=" bg-black re">
       <i>
+      
         <img
           src="images/encide_logo-removebg-preview.png"
           className=" w-40 absolute z-30 right-2"
@@ -69,5 +71,7 @@ export default function Home() {
       <Register />
     </main>
 
+    </Suspense>
+    
   );
 }
