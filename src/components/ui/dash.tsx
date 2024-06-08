@@ -1,8 +1,8 @@
 "use client";
 import axios from "axios";
+import React, { useState, useEffect } from "react";
 
-import React, { useState } from "react";
-type userData = {
+type UserData = {
   name: string;
   country: string;
   ieeeId: string;
@@ -12,7 +12,11 @@ type userData = {
   email: string;
 };
 
-const addTeammateToTeam = async (teamname: any, member: any) => {
+type UserData1 = UserData & {
+  teamname: string;
+};
+
+const addTeammateToTeam = async (teamname: string, member: UserData) => {
   try {
     const response = await axios.put("/api/addteammate", { teamname, member });
     return response.data;
@@ -32,9 +36,46 @@ const createUser = async (userData: any) => {
   }
 };
 
-export default function Dash() {
+const fetchUser = async (email: string) => {
+  try {
+    const response = await axios.get("/api/user", {
+      params: { email },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
+};
+
+const fetchTeam = async (teamname: string, mem: UserData) => {
+  try {
+    const response = await axios.post("/api/createteam", {
+      teamname,
+      members: [mem],
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching team:", error);
+    throw error;
+  }
+};
+
+const deleteUserFromTeam = async (email: string, teamname: string) => {
+  try {
+    const response = await axios.delete("/api/deleteuser", {
+      data: { email, teamname },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    throw error;
+  }
+};
+
+export default function Dash({ userEmail }: { userEmail: any }) {
   const [addMember, setAddMember] = useState(false);
-  const [userData, setUserData] = useState<userData>({
+  const [userData, setUserData] = useState<UserData>({
     name: "",
     country: "",
     ieeeId: "",
@@ -43,38 +84,65 @@ export default function Dash() {
     contact: "",
     email: "",
   });
-  const teamname = "qqq2";
+
+  const [currentUserData, setCurrentUserData] = useState<UserData1>({
+    name: "",
+    country: "",
+    ieeeId: "",
+    college: "",
+    branch: "",
+    contact: "",
+    email: "",
+    teamname: "",
+  });
+
+  const [teamMembers, setTeamMembers] = useState<UserData[] | null>(null);
+
+  useEffect(() => {
+    if (userEmail) {
+      fetchUser(userEmail).then((data) => setCurrentUserData(data));
+    }
+  }, [userEmail]);
+
+  useEffect(() => {
+    fetchTeam(currentUserData.teamname, currentUserData).then((team) => {
+      setTeamMembers(team.members);
+    });
+  }, [currentUserData]);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const member = userData;
-      const name = userData.name;
-      const email = userData.name + "admin@gmail.com";
-      const IEEEID = userData.ieeeId;
-      const team = teamname;
+      const { name, email, ieeeId: IEEEID } = userData;
+      const { teamname: team } = currentUserData;
       const isLead = false;
       const user = { name, email, IEEEID, isLead, team };
+
       console.log(user);
       console.log(member);
-      const response = await addTeammateToTeam(teamname, member);
-      const userResponse = await createUser(user);
-      console.log(userResponse.message);
-      console.log(response.message);
+
+      await addTeammateToTeam(team, member);
+      await createUser(user);
+
+      setAddMember(false);
+      setUserData({
+        name: "",
+        country: "",
+        ieeeId: "",
+        college: "",
+        branch: "",
+        contact: "",
+        email: "",
+      });
+
+      fetchTeam(currentUserData.teamname, currentUserData).then((team) => {
+        setTeamMembers(team.members);
+      });
     } catch (error) {
-      console.log("Failed to add to team.");
+      console.log("Failed to add to team.", error);
     }
   };
-
-  const [teamMember1, setTeamMember1] = useState<userData | null>({
-    name: "",
-    country: "",
-    ieeeId: "",
-    college: "",
-    branch: "",
-    contact: "",
-    email: "",
-  });
-  const [teamMember2, setTeamMember2] = useState<userData | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -83,12 +151,28 @@ export default function Dash() {
       [name]: value,
     }));
   };
+
+  const handleDelete = async (mem: UserData) => {
+    try {
+      const email = mem.email;
+      const teamname = currentUserData.teamname;
+      const response = await deleteUserFromTeam(email, teamname);
+      console.log(response.message);
+
+      fetchTeam(currentUserData.teamname, currentUserData).then((team) => {
+        setTeamMembers(team.members);
+      });
+    } catch (error) {
+      console.error("Failed to delete user:", error);
+    }
+  };
+
   return (
     <div className="container relative flex flex-col place-items-center place-content-center">
       <div className="py-16 px-48 w-full">
-        <div className="text-3xl py-8">Welcome Name</div>
+        <div className="text-3xl py-8">Welcome {currentUserData.name}</div>
         <div className="border-b-2 border-white flex justify-between mb-8">
-          <h2 className="text-2xl ">Team Name</h2>
+          <h2 className="text-2xl ">{currentUserData.teamname}</h2>
           <button
             className=" bg-blue-700 px-4 m-1 border-2 border-slate-600 hover:bg-blue-400 duration-150 rounded-sm"
             onClick={() => setAddMember(true)}
@@ -97,74 +181,55 @@ export default function Dash() {
           </button>
         </div>
         <div className="flex flex-col md:grid md:grid-cols-3 md:gap-x-4">
-          <div className="cols-span-1 p-8 min-w-50  rounded-sm bg-slate-800">
+          <div className="cols-span-1 p-8 min-w-50 rounded-sm bg-slate-800">
             <div className="flex justify-between">
               <h3 className="text-2xl pb-4">Team Leader</h3>
             </div>
             <ul className="px-6">
-              <li>Name : </li>
-              <li>Email : </li>
-              <li>College : </li>
+              <li>Name: {currentUserData.name}</li>
+              <li>Email: {currentUserData.email}</li>
+              <li>College: {currentUserData.college}</li>
             </ul>
           </div>
-          {teamMember1 !== null ? (
-            <div className="cols-span-1 p-8 min-w-50 rounded-sm bg-slate-800">
-              <div className="flex justify-between">
-                <h3 className="text-2xl pb-4">Team member 1</h3>
-                <div>
-                  <svg
-                    className="h-6 w-6 text-red-500"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                    stroke="currentColor"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" />
-                    <circle cx="12" cy="12" r="9" />
-                    <path d="M10 10l4 4m0 -4l-4 4" />
-                  </svg>
+          {teamMembers != null &&
+            teamMembers.map((member, index) => (
+              <div
+                key={index}
+                className="cols-span-1 p-8 min-w-50 rounded-sm bg-slate-800"
+              >
+                <div className="flex justify-between">
+                  <h3 className="text-2xl pb-4">Team member {index + 1}</h3>
+                  <div>
+                    <svg
+                      className="h-6 w-6 text-red-500"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      stroke="currentColor"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      onClick={() => handleDelete(member)}
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" />
+                      <circle cx="12" cy="12" r="9" />
+                      <path d="M10 10l4 4m0 -4l-4 4" />
+                    </svg>
+                  </div>
                 </div>
+                <ul className="px-6">
+                  <li>Name: {member.name}</li>
+                  <li>Email: {member.email}</li>
+                  <li>College: {member.college}</li>
+                </ul>
               </div>
-              <ul className="px-6">
-                <li>Name: {teamMember1.name}</li>
-                <li>Email: {teamMember1.email}</li>
-                <li>College: {teamMember1.college}</li>
-              </ul>
-            </div>
-          ) : null}
-          {teamMember2 !== null ? (
-            <div className="cols-span-1 p-8 min-w-50 rounded-sm bg-slate-800">
-              <div className="flex justify-between">
-                <h3 className="text-2xl pb-4">Team member 1</h3>
-                <div>
-                  <svg
-                    className="h-6 w-6 text-red-500"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                    stroke="currentColor"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" />
-                    <circle cx="12" cy="12" r="9" />
-                    <path d="M10 10l4 4m0 -4l-4 4" />
-                  </svg>
-                </div>
-              </div>
-              <ul className="px-6">
-                <li>Name: {teamMember2.name}</li>
-                <li>Email: {teamMember2.email}</li>
-                <li>College: {teamMember2.college}</li>
-              </ul>
-            </div>
-          ) : null}
+            ))}
+        </div>
+        <div className="flex flex-col place-items-center pt-16">
+          <button className="w-1/4 min-w-24 bg-blue-700 py-2 rounded-sm">
+            Register
+          </button>
         </div>
       </div>
       {addMember && (
@@ -184,9 +249,8 @@ export default function Dash() {
                 stroke-linejoin="round"
                 onClick={() => setAddMember(false)}
               >
-                {" "}
-                <path stroke="none" d="M0 0h24v24H0z" />{" "}
-                <line x1="18" y1="6" x2="6" y2="18" />{" "}
+                <path stroke="none" d="M0 0h24v24H0z" />
+                <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </div>

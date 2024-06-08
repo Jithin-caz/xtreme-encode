@@ -39,7 +39,7 @@ const createUser = async (userData: any) => {
   }
 };
 
-export default function Register() {
+export default function Register({ userEmail }: { userEmail: any }) {
   const [userData, setUserData] = useState<UserData>({
     name: "",
     country: "",
@@ -65,7 +65,7 @@ export default function Register() {
       const teamname = userData.teamName;
       const members = [userData];
       const name = userData.name;
-      const email = userData.name + "admin@gmail.com";
+      const email = userEmail;
       const IEEEID = userData.ieeeId;
       const team = userData.teamName;
       const isLead = true;
