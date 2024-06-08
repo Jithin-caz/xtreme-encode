@@ -2,29 +2,31 @@
 
 import { async } from "@firebase/util"
 import { createUserWithEmailAndPassword, GithubAuthProvider, signInWithPopup,sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth"
-
+import {useDispatch,useSelector} from 'react-redux'
 import { useState,useEffect,useRef } from "react"
 
 import { provider,auth,gitprovider } from "../config"
+import { setemail } from "@/redux/actions/email"
 
 
 export default function Register()
 {
     const ref=useRef(null)
-   
-    
+   const dispatch=useDispatch()
     const [value,setvalue]=useState<any | null>()
    
     async function handleauth()
     {
-      
            await signInWithPopup(auth,provider).then((data)=>{
                 setvalue(data.user)
+                //@ts-ignore
+                dispatch(setemail(data.user.email))
+               
              if(data.user)
              //@ts-ignore
              ref.current.click()
                 // localStorage.setItem("email",data.user.email)
-            }).catch((err)=> alert("email or password does'nt match. If error persists, contact owner ")) 
+            }).catch((err)=> alert("google auth error.Please try again after some time. If error persists, contact owner"+err)) 
     }
     async function handleauthgit()
     {

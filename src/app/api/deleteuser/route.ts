@@ -30,7 +30,7 @@ export async function DELETE(req:any)
   // res.json(users);
   //@ts-ignore
   return Response.json({
-    "message":"delete success",
+    message:"delete success",
     user:users,
   })
 }
