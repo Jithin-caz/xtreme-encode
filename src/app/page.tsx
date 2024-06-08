@@ -4,12 +4,12 @@ import Register from "@/app/signin/page";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import Loading from "./loading";
 import { Provider } from "react-redux";
-import store from "@/redux/store";
+
 
 export default function Home() {
  
   return (
-    <Provider store={store}>
+   
       <main className=" bg-black re">
       <i>
       
@@ -73,6 +73,6 @@ export default function Home() {
       </HeroHighlight>
       <Register />
     </main>  
-    </Provider>
+   
   );
 }

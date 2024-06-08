@@ -2,12 +2,16 @@
 import Dash from "@/components/ui/dash";
 import Navbar from "@/components/ui/navbar";
 import Register from "@/components/ui/register";
-import {useSelector,Provider} from 'react-redux'
+import React, { useState } from "react";
 import {useEffect} from 'react'
-import store from "@/redux/store";
-export default function Dashboard() {
 
-  
+export default function Dashboard() {
+  const [email,setEmail]=useState('')
+useEffect(()=>{
+  const email=localStorage.getItem('email')
+  setEmail(email)
+  console.log(`current email is ${email}`)
+},[])
   return (
     
     <div className="text-white">
