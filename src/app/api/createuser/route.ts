@@ -1,5 +1,6 @@
 // pages/api/users.js
 //@ts-ignore
+import { NextRequest } from 'next/server';
 import clientPromise from '../../../lib/mongodb';
 //@ts-ignore
 // export default async function handler(req, res) {
@@ -23,8 +24,10 @@ import clientPromise from '../../../lib/mongodb';
 //       break;
 //   }
 // }
-export async function POST(req)
+export async function POST(req:NextRequest)
 {
+  const cookies=req.cookies.get("authCookie")
+  console.log(`all cookies are ${cookies}`)
     //@ts-ignore
     const client = await clientPromise;
     const db = client.db('data'); // use your database name
@@ -64,6 +67,7 @@ export async function POST(req)
   //@ts-ignore
   return Response.json({
     message:"user added successfully",
-    user:users
+    user:users,
+    cookies:cookies
   })
 }

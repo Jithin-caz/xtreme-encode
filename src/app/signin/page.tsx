@@ -22,9 +22,9 @@ export default function Register()
                 //@ts-ignore
                 localStorage.setItem("email",data.user.email)
                
-             if(data.user)
-             //@ts-ignore
-             ref.current.click()
+            //  if(data.user)
+            //  //@ts-ignore
+            //  ref.current.click()
                 
             }).catch((err)=> alert("google auth error.Please try again after some time. If error persists, contact owner"+err)) 
     }
@@ -33,7 +33,8 @@ export default function Register()
             await signInWithPopup(auth,gitprovider).then((data)=>{
                 const credential=GithubAuthProvider.credentialFromResult(data)
                 const token=credential?.accessToken
-    
+                 //@ts-ignore
+                localStorage.setItem("email",data.user.email)
                 setvalue(data.user)
                 console.log(data.user)
              if(data.user)
@@ -54,6 +55,8 @@ const handlesubmitlogin=async(e:any)=>
         alert("passwords dont match")
         await signInWithEmailAndPassword(auth,email,password).then((data)=>{console.log(`login data is ${data.user.email} is verified? ${data.user.emailVerified}`)
         setvalue(data.user)
+         //@ts-ignore
+         localStorage.setItem("email",data.user.email)
             if(data.user)
             //@ts-ignore
              ref.current.click()
