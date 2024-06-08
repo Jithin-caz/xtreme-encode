@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import axios from "axios";
 
 const instructions = [
   "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos saepe pariatur hic nihil odio. Quod.",
@@ -9,7 +10,7 @@ const instructions = [
   "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos saepe pariatur hic nihil odio. Quod.",
 ];
 
-type userData = {
+type UserData = {
   name: string;
   country: string;
   ieeeId: string;
@@ -19,8 +20,27 @@ type userData = {
   teamName: string;
 };
 
+const createTeam = async (teamData: any) => {
+  try {
+    const response = await axios.post("/api/createteam", teamData);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating team:", error);
+    throw error;
+  }
+};
+const createUser = async (userData: any) => {
+  try {
+    const response = await axios.post("/api/createuser", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating User:", error);
+    throw error;
+  }
+};
+
 export default function Register() {
-  const [userData, setUserData] = useState<userData>({
+  const [userData, setUserData] = useState<UserData>({
     name: "",
     country: "",
     ieeeId: "",
@@ -29,6 +49,7 @@ export default function Register() {
     contact: "",
     teamName: "",
   });
+  const [message, setMessage] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -38,14 +59,37 @@ export default function Register() {
     }));
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const teamname = userData.teamName;
+      const members = [userData];
+      const name = userData.name;
+      const email = userData.name + "admin@gmail.com";
+      const IEEEID = userData.ieeeId;
+      const team = userData.teamName;
+      const isLead = true;
+      const user = { name, email, IEEEID, isLead, team };
+      console.log(user);
+      console.log(members);
+      const teamData = { teamname, members };
+      const response = await createTeam(teamData);
+      const userResponse = await createUser(user);
+      console.log(userResponse.message);
+      console.log(response.message);
+    } catch (error) {
+      setMessage("Failed to create team.");
+    }
+  };
+
   return (
-    <div className="flex  flex-col-reverse place-items-center lg:place-items-stretch px-16 lg:px-48 py-12  lg:grid lg:grid-cols-3">
+    <div className="flex flex-col-reverse place-items-center lg:place-items-stretch px-16 lg:px-48 py-12 lg:grid lg:grid-cols-3">
       <div className="lg:col-span-2">
         <div className="form px-16 lg:pl-8 lg:pr-4 lg:mr-4 lg:border-r-2 lg:border-slate-300">
           <div className="font-thin text-2xl pb-8">
             <h2>Enter Your Details</h2>
           </div>
-          <form action="">
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-col pb-8">
               <input
                 type="text"
@@ -122,11 +166,15 @@ export default function Register() {
               />
             </div>
             <div className="flex flex-col place-items-center">
-              <button className="w-1/4 min-w-24 bg-blue-700 py-2 rounded-sm">
+              <button
+                type="submit"
+                className="w-1/4 min-w-24 bg-blue-700 py-2 rounded-sm"
+              >
                 Continue
               </button>
             </div>
           </form>
+          {message && <p className="pt-4 text-center">{message}</p>}
         </div>
       </div>
       <div className="lg:col-span-1 bg-slate-800 rounded-sm p-8 mb-8">
@@ -134,7 +182,7 @@ export default function Register() {
         <ol className="font-mono text-sm">
           {instructions.map((i, index) => (
             <li key={index} className="pb-2">
-              {index + 1}.{i}
+              {index + 1}. {i}
             </li>
           ))}
         </ol>

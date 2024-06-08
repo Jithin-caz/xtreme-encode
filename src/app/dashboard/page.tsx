@@ -13,7 +13,7 @@ export default function Dashboard() {
     <div className="text-white">
       <Navbar></Navbar>
       <Register></Register>
-      {/* <Dash></Dash> */}
+      <Dash></Dash>
     </div>
   );
 }
