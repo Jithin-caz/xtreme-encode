@@ -33,8 +33,9 @@ export default function Register()
              if(data.user)
              {
                 console.log(`verified is : ${data.user.emailVerified}`)
+                 //@ts-ignore
              createCookie(data.user.email)
-            //   //@ts-ignore
+               //@ts-ignore
               ref.current.click()
              }
                 
@@ -51,6 +52,7 @@ export default function Register()
                 setvalue(data.user)
                 console.log(data.user)
              if(data.user){
+                 //@ts-ignore
              createCookie(data.user.email)
              //@ts-ignore
              ref.current.click()}
@@ -77,6 +79,7 @@ const handlesubmitlogin=async(e:any)=>
     
             if(data.user)
             {
+                 //@ts-ignore
                 createCookie(data.user.email)
                 //@ts-ignore
                  ref.current.click()
@@ -94,6 +97,7 @@ const handleformSignup=async(e:any)=>{
          sendEmailVerification(auth.currentUser).then(()=>alert("email verification link sent"))  
         console.log(data.user)
             setvalue(data.user)
+             //@ts-ignore
             localStorage.setItem("email",data.user.email)
            
             if(!data.user.emailVerified)
@@ -101,6 +105,7 @@ const handleformSignup=async(e:any)=>{
        
             if(data.user)
             {
+                 //@ts-ignore
             createCookie(data.user.email)
               //@ts-ignore
             ref.current.click()
