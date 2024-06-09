@@ -180,6 +180,7 @@ export default function Dash({ userEmail }: { userEmail: any }) {
             + Add Member
           </button>
         </div>
+        
         <div className="flex flex-col md:grid md:grid-cols-3 md:gap-x-4">
           <div className="cols-span-1 p-8 min-w-50 rounded-sm bg-slate-800">
             <div className="flex justify-between">
