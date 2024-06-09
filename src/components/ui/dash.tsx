@@ -272,9 +272,9 @@ export default function Dash() {
             ))}
         </div>
         <div className="flex flex-col place-items-center pt-16">
-          <button className="w-1/4 min-w-24 bg-blue-700 py-2 rounded-sm">
+          <a href="/finalRegister" className="w-1/4 min-w-24 bg-blue-700 py-2 rounded-sm text-center hover:bg-blue-900">
             Register
-          </button>
+          </a>
         </div>
       </div>
       {addMember && (

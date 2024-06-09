@@ -5,6 +5,7 @@ import axios from "axios"
 import { createUserWithEmailAndPassword, GithubAuthProvider, signInWithPopup,sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth"
 
 import { useState,useEffect,useRef } from "react"
+import { toast, ToastContainer } from "react-toastify"
 
 import { provider,auth,gitprovider } from "../config"
 
@@ -12,6 +13,9 @@ import { provider,auth,gitprovider } from "../config"
 
 export default function Register()
 {
+    const notify = (msg:string)=>{
+        toast.error(msg)
+    }
     const createCookie=async(email:string)=>{
          await axios.post("/api/createCookie",{email}).then((res)=>console.log(res)).catch((err)=>console.log(err));
     }
@@ -25,12 +29,12 @@ export default function Register()
                 setvalue(data.user)
                 //@ts-ignore
                 localStorage.setItem("email",data.user.email)
-               
+                localStorage.setItem("emailVerified",data.user.emailVerified)
              if(data.user)
              {
-
+                console.log(`verified is : ${data.user.emailVerified}`)
              createCookie(data.user.email)
-              //@ts-ignore
+            //   //@ts-ignore
               ref.current.click()
              }
                 
@@ -43,6 +47,7 @@ export default function Register()
                 const token=credential?.accessToken
                  //@ts-ignore
                 localStorage.setItem("email",data.user.email)
+                localStorage.setItem("emailVerified",data.user.emailVerified)
                 setvalue(data.user)
                 console.log(data.user)
              if(data.user){
@@ -66,6 +71,10 @@ const handlesubmitlogin=async(e:any)=>
         setvalue(data.user)
          //@ts-ignore
          localStorage.setItem("email",data.user.email)
+         localStorage.setItem("emailVerified",data.user.emailVerified)
+         if(!data.user.emailVerified)
+         notify("email not verified")
+    
             if(data.user)
             {
                 createCookie(data.user.email)
@@ -85,6 +94,11 @@ const handleformSignup=async(e:any)=>{
          sendEmailVerification(auth.currentUser).then(()=>alert("email verification link sent"))  
         console.log(data.user)
             setvalue(data.user)
+            localStorage.setItem("email",data.user.email)
+            localStorage.setItem("emailVerified",data.user.emailVerified)
+            if(!data.user.emailVerified)
+            notify("email not verified")
+       
             if(data.user)
             {
             createCookie(data.user.email)
@@ -100,7 +114,9 @@ const handleformSignup=async(e:any)=>{
 }
    
     const [signup,setSignup]=useState(true)
-    return <div className=" grid grid-cols-1 lg:grid-cols-2 h-lvh" id="REGISTER">
+    return <div className=" h-lvh">
+        <ToastContainer/>
+        <div className=" grid grid-cols-1 lg:grid-cols-2 h-full" id="REGISTER">
        
         <div className=" bg-white" style={{ background:'url("https://i.pinimg.com/736x/4e/99/61/4e996161b1ff9177cd41ce737c8e00ca.jpg")',backgroundPosition:'center' }}>
             <div className=" w-full bg-opacity-55 bg-black text-white font-semibold text-5xl h-full flex justify-center items-center gap-0">
@@ -127,4 +143,5 @@ const handleformSignup=async(e:any)=>{
         </div>
         <a ref={ref} className=" text-white" href="/dashboard" style={{ display:'none' }}></a>
     </div>
+    </div> 
 }

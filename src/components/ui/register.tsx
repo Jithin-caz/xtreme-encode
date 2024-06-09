@@ -17,7 +17,8 @@ type UserData = {
   college: string;
   branch: string;
   contact: string;
-  teamName: string;
+  team: string;
+  email:string
 };
 
 const createTeam = async (teamData: any) => {
@@ -41,6 +42,7 @@ const createUser = async (userData: any) => {
 };
 
 export default function Register({ userEmail,state,onStateChange }: { userEmail: any,state:boolean,onStateChange:(newState:boolean)=>void}) {
+ 
   const [userData, setUserData] = useState<UserData>({
     name: "",
     country: "",
@@ -48,7 +50,8 @@ export default function Register({ userEmail,state,onStateChange }: { userEmail:
     college: "",
     branch: "",
     contact: "",
-    teamName: "",
+    team: "",
+    email:userEmail
   });
   const [message, setMessage] = useState("");
 
@@ -64,17 +67,17 @@ export default function Register({ userEmail,state,onStateChange }: { userEmail:
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const teamname = userData.teamName;
+      const teamname = userData.team;
       const members = [userData];
       const name = userData.name;
       const email = userEmail;
       const IEEEID = userData.ieeeId;
-      const team = userData.teamName;
+      const team = userData.team;
       const isLead = true;
       const user = { name, email, IEEEID, isLead, team };
       console.log(user);
       console.log(members);
-      const teamData = { teamname, members };
+      const teamData = { team:teamname, members };
       const response = await createTeam(teamData);
       const userResponse = await createUser(user);
       onStateChange(true)
@@ -160,10 +163,10 @@ export default function Register({ userEmail,state,onStateChange }: { userEmail:
             <div className="flex flex-col pb-8">
               <input
                 type="text"
-                name="teamName"
+                name="team"
                 required
                 placeholder="Team Name"
-                value={userData.teamName}
+                value={userData.team}
                 onChange={handleChange}
                 className="bg-transparent border-b-2 border-slate-400 focus:border-y-2 focus:border-blue-400 duration-200"
               />
