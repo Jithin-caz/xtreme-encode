@@ -29,7 +29,7 @@ export default function Register()
                 setvalue(data.user)
                 //@ts-ignore
                 localStorage.setItem("email",data.user.email)
-                localStorage.setItem("emailVerified",data.user.emailVerified)
+                
              if(data.user)
              {
                 console.log(`verified is : ${data.user.emailVerified}`)
@@ -47,7 +47,7 @@ export default function Register()
                 const token=credential?.accessToken
                  //@ts-ignore
                 localStorage.setItem("email",data.user.email)
-                localStorage.setItem("emailVerified",data.user.emailVerified)
+              
                 setvalue(data.user)
                 console.log(data.user)
              if(data.user){
@@ -71,7 +71,7 @@ const handlesubmitlogin=async(e:any)=>
         setvalue(data.user)
          //@ts-ignore
          localStorage.setItem("email",data.user.email)
-         localStorage.setItem("emailVerified",data.user.emailVerified)
+       
          if(!data.user.emailVerified)
          notify("email not verified")
     
@@ -95,7 +95,7 @@ const handleformSignup=async(e:any)=>{
         console.log(data.user)
             setvalue(data.user)
             localStorage.setItem("email",data.user.email)
-            localStorage.setItem("emailVerified",data.user.emailVerified)
+           
             if(!data.user.emailVerified)
             notify("email not verified")
        
