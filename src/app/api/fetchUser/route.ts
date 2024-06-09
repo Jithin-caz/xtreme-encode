@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
           message: "User not found",
         }),
         {
-          status: 404,
+          status: 206,
           headers: {
             "Content-Type": "application/json",
           },

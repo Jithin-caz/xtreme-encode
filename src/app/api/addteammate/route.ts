@@ -19,9 +19,9 @@ export async function PUT(req:any)
     const allteams=await db.collection('teams').find({}).toArray()
 
     for (const team of allteams) {
-        const emailExists = team.members.filter((memberinside:any) => memberinside.email === member.email);
+        const emailExists = team.members.some((memberinside:any) => memberinside.email === member.email);
         if (emailExists) {
-            return Response.json({ message:"email already in another team"});
+            return Response.json({ message:"email already in use "});
         }
     }
 

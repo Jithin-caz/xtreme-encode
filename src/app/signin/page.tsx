@@ -1,6 +1,7 @@
 "use client"
 
 import { async } from "@firebase/util"
+import axios from "axios"
 import { createUserWithEmailAndPassword, GithubAuthProvider, signInWithPopup,sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth"
 
 import { useState,useEffect,useRef } from "react"
@@ -11,6 +12,9 @@ import { provider,auth,gitprovider } from "../config"
 
 export default function Register()
 {
+    const createCookie=async(email:string)=>{
+         await axios.post("/api/createCookie",{email}).then((res)=>console.log(res)).catch((err)=>console.log(err));
+    }
     const ref=useRef(null)
 
     const [value,setvalue]=useState<any | null>()
@@ -22,9 +26,13 @@ export default function Register()
                 //@ts-ignore
                 localStorage.setItem("email",data.user.email)
                
-            //  if(data.user)
-            //  //@ts-ignore
-            //  ref.current.click()
+             if(data.user)
+             {
+
+             createCookie(data.user.email)
+              //@ts-ignore
+              ref.current.click()
+             }
                 
             }).catch((err)=> alert("google auth error.Please try again after some time. If error persists, contact owner"+err)) 
     }
@@ -37,9 +45,10 @@ export default function Register()
                 localStorage.setItem("email",data.user.email)
                 setvalue(data.user)
                 console.log(data.user)
-             if(data.user)
+             if(data.user){
+             createCookie(data.user.email)
              //@ts-ignore
-             ref.current.click()
+             ref.current.click()}
                 // localStorage.setItem("email",data.user.email)
             }).catch((error)=> alert("you have already signedup using google. Please choose signin with google"))
           
@@ -58,8 +67,12 @@ const handlesubmitlogin=async(e:any)=>
          //@ts-ignore
          localStorage.setItem("email",data.user.email)
             if(data.user)
-            //@ts-ignore
-             ref.current.click()
+            {
+                createCookie(data.user.email)
+                //@ts-ignore
+                 ref.current.click()
+            }
+           
     }).catch((err)=>alert('error'))
 }
 
@@ -73,8 +86,12 @@ const handleformSignup=async(e:any)=>{
         console.log(data.user)
             setvalue(data.user)
             if(data.user)
-            //@ts-ignore
-             ref.current.click()
+            {
+            createCookie(data.user.email)
+              //@ts-ignore
+            ref.current.click()
+            }
+           
             console.log(`email verified? ${data.user.emailVerified}`)
     }).catch((err)=>{
         setSignup(false)

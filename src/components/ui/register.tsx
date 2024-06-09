@@ -31,7 +31,8 @@ const createTeam = async (teamData: any) => {
 };
 const createUser = async (userData: any) => {
   try {
-    const response = await axios.post("/api/createuser", userData);
+    const authemail=localStorage.getItem('email')
+    const response = await axios.post("/api/createuser", {...userData,authemail});
     return response.data;
   } catch (error) {
     console.error("Error creating User:", error);
@@ -39,7 +40,7 @@ const createUser = async (userData: any) => {
   }
 };
 
-export default function Register({ userEmail }: { userEmail: any }) {
+export default function Register({ userEmail,state,onStateChange }: { userEmail: any,state:boolean,onStateChange:(newState:boolean)=>void}) {
   const [userData, setUserData] = useState<UserData>({
     name: "",
     country: "",
@@ -50,6 +51,7 @@ export default function Register({ userEmail }: { userEmail: any }) {
     teamName: "",
   });
   const [message, setMessage] = useState("");
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -75,6 +77,7 @@ export default function Register({ userEmail }: { userEmail: any }) {
       const teamData = { teamname, members };
       const response = await createTeam(teamData);
       const userResponse = await createUser(user);
+      onStateChange(true)
       console.log(userResponse.message);
       console.log(response.message);
     } catch (error) {

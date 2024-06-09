@@ -1,6 +1,9 @@
 "use client";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
 
 type UserData = {
   name: string;
@@ -13,12 +16,13 @@ type UserData = {
 };
 
 type UserData1 = UserData & {
-  teamname: string;
+  team: string;
 };
 
-const addTeammateToTeam = async (teamname: string, member: UserData) => {
+const addTeammateToTeam = async (team: string, member: any) => {
   try {
-    const response = await axios.put("/api/addteammate", { teamname, member });
+    const teamname=member.team
+    const response = await axios.put("/api/addteammate", {teamname , member });
     return response.data;
   } catch (error) {
     console.error("Error adding teammate to team:", error);
@@ -28,8 +32,10 @@ const addTeammateToTeam = async (teamname: string, member: UserData) => {
 
 const createUser = async (userData: any) => {
   try {
-    const response = await axios.post("/api/createuser", userData);
-    return response.data;
+    const authemail = localStorage.getItem('email')
+    const response = await axios.post("/api/createuser", {...userData,authemail});
+    console.log(response)
+    return response.data.acknowledged;
   } catch (error) {
     console.error("Error creating User:", error);
     throw error;
@@ -38,9 +44,11 @@ const createUser = async (userData: any) => {
 
 const fetchUser = async (email: string) => {
   try {
-    const response = await axios.get("/api/user", {
+    const response = await axios.get("/api/fetchUser", {
       params: { email },
     });
+    console.log('in fetch user')
+    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error("Error fetching user:", error);
@@ -73,7 +81,22 @@ const deleteUserFromTeam = async (email: string, teamname: string) => {
   }
 };
 
-export default function Dash({ userEmail }: { userEmail: any }) {
+export default function Dash() {
+
+
+  const notifyerr = (msg:string) => {
+    toast.error(msg, {
+      position: "top-center"
+    });
+  }
+
+  const notifsuccess = (msg:string) => {
+    toast.success(msg, {
+      position: "top-center"
+    });
+  }
+
+
   const [addMember, setAddMember] = useState(false);
   const [userData, setUserData] = useState<UserData>({
     name: "",
@@ -93,38 +116,56 @@ export default function Dash({ userEmail }: { userEmail: any }) {
     branch: "",
     contact: "",
     email: "",
-    teamname: "",
+    team: "",
   });
 
   const [teamMembers, setTeamMembers] = useState<UserData[] | null>(null);
+ 
+  useEffect(() => {
+    const email = localStorage.getItem('email')
+    console.log("email in dash " +email)
+ if(email)
+      fetchUser(email).then((data) => {
+        if(data.user)
+        setCurrentUserData(data.user)
+    });  
+      },[]);
+     
 
   useEffect(() => {
-    if (userEmail) {
-      fetchUser(userEmail).then((data) => setCurrentUserData(data));
-    }
-  }, [userEmail]);
-
-  useEffect(() => {
-    fetchTeam(currentUserData.teamname, currentUserData).then((team) => {
-      setTeamMembers(team.members);
+    
+    fetchTeam(currentUserData.team, currentUserData).then((team) => {
+      console.log("team")
+      console.log(team)
+      team.message != "error!! required field teamname not found"&&setTeamMembers(team.team.members);
+      
     });
-  }, [currentUserData]);
+  },[currentUserData]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const member = userData;
+      const member = {...userData,team:currentUserData.team};
       const { name, email, ieeeId: IEEEID } = userData;
-      const { teamname: team } = currentUserData;
+      const teamname = currentUserData.team;
       const isLead = false;
-      const user = { name, email, IEEEID, isLead, team };
+      const user = { name, email, IEEEID, isLead,team:teamname };
 
       console.log(user);
       console.log(member);
 
-      await addTeammateToTeam(team, member);
-      await createUser(user);
-
+      const teamRes = await addTeammateToTeam(teamname, member);
+     
+      if (teamRes.message ==="teammate added successfully" )
+      {
+        notifsuccess(teamRes.message)
+        const res=await createUser(user);
+      }
+    
+      else
+      notifyerr(teamRes.message)
+    
+     
       setAddMember(false);
       setUserData({
         name: "",
@@ -136,8 +177,8 @@ export default function Dash({ userEmail }: { userEmail: any }) {
         email: "",
       });
 
-      fetchTeam(currentUserData.teamname, currentUserData).then((team) => {
-        setTeamMembers(team.members);
+      fetchTeam(currentUserData.team, currentUserData).then((team) => {
+        setTeamMembers(team.team.members);
       });
     } catch (error) {
       console.log("Failed to add to team.", error);
@@ -155,12 +196,12 @@ export default function Dash({ userEmail }: { userEmail: any }) {
   const handleDelete = async (mem: UserData) => {
     try {
       const email = mem.email;
-      const teamname = currentUserData.teamname;
+      const teamname = currentUserData.team;
       const response = await deleteUserFromTeam(email, teamname);
       console.log(response.message);
 
-      fetchTeam(currentUserData.teamname, currentUserData).then((team) => {
-        setTeamMembers(team.members);
+      fetchTeam(currentUserData.team, currentUserData).then((team) => {
+        setTeamMembers(team.team.members);
       });
     } catch (error) {
       console.error("Failed to delete user:", error);
@@ -169,10 +210,12 @@ export default function Dash({ userEmail }: { userEmail: any }) {
 
   return (
     <div className="container relative flex flex-col place-items-center place-content-center">
+                <ToastContainer />
+
       <div className="py-16 px-48 w-full">
         <div className="text-3xl py-8">Welcome {currentUserData.name}</div>
         <div className="border-b-2 border-white flex justify-between mb-8">
-          <h2 className="text-2xl ">{currentUserData.teamname}</h2>
+          <h2 className="text-2xl ">{currentUserData.team}</h2>
           <button
             className=" bg-blue-700 px-4 m-1 border-2 border-slate-600 hover:bg-blue-400 duration-150 rounded-sm"
             onClick={() => setAddMember(true)}
@@ -194,6 +237,7 @@ export default function Dash({ userEmail }: { userEmail: any }) {
           </div>
           {teamMembers != null &&
             teamMembers.map((member, index) => (
+              (index!=0)&&
               <div
                 key={index}
                 className="cols-span-1 p-8 min-w-50 rounded-sm bg-slate-800"
@@ -292,7 +336,7 @@ export default function Dash({ userEmail }: { userEmail: any }) {
               <input
                 type="text"
                 name="ieeeId"
-                required
+               
                 placeholder="IEEE ID"
                 value={userData.ieeeId}
                 onChange={handleChange}
