@@ -11,29 +11,30 @@ college:string,
 branch:string,
 contact:string,
 email:string,
-teamName:string
+team:string
 }
 export default function FinalRegistration()
 {
     const [members,setMembers]=useState<MmebersType[]>([])
     
-    const [teamname,setTeamname]=useState("")
+    const [team,setTeamname]=useState("")
     const [isRegistered,setIsRegistered]=useState(false)
     const [loading,setLoading]=useState(true)
     const confirmRegistration=async()=>{
         setLoading(true)
         await axios.put('api/registerteam',{
-            teamname
+            team:team.toLowerCase()
         }).then((res)=>{
             console.log("registration complete")
             setIsRegistered(true)
             setLoading(false)
         }).catch((err)=>console.log(err))
     }
-    const getTeam2=async(teamname:string)=>{
-        console.log(`team name is ${teamname}`)
+    const getTeam2=async(teams:string)=>{
+        const team=teams.toLowerCase()
+        console.log(`team name is ${team}`)
         await axios.post('api/createteam',{
-            teamname
+            team
         }).then((res)=>{
             console.log(res.data.team.members)
             setMembers(res.data.team.members)
@@ -53,9 +54,8 @@ export default function FinalRegistration()
             getTeam2(res.data.user.team)
         }
           ).catch((err)=>console.log(err))
-
      await axios.post('api/createteam',{
-            teamname
+            team:team.toLowerCase()
         }).then((res)=>{
             console.log(res.data.team.members)
             setMembers(res.data.team.members)
@@ -70,10 +70,10 @@ export default function FinalRegistration()
     return !loading?<section className=" bg-slate-950 p-10 py-8 pt-16 min-h-dvh text-indigo-700">
         { isRegistered?
             <h1 className=" text-center  text-4xl font-semibold   text-indigo-700">Registration complete</h1>:
-            <h1 className=" text-2xl  text-purple-900 font-semibold">Once registered changes cannot be reverted!! <br />If you wish to edit
+            <h1 className=" text-2xl  text-indigo-700 font-semibold">Once registered changes cannot be reverted!! <br />If you wish to edit
             , go back to the previous page</h1>}
 
-            <h1  className=" pt-14 text-white text-xl"><span className="opacity-85  text-indigo-700">teamname:&nbsp;</span>{teamname}</h1>
+            <h1  className=" pt-14 text-white text-xl"><span className="opacity-85  text-indigo-700">team:&nbsp;</span>{team}</h1>
                
                 <div className=" mt-11 w-full grid grid-cols-1 lg:grid-cols-3 gap-5 ">
                     {

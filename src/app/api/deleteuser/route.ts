@@ -7,19 +7,19 @@ export async function DELETE(req:any)
     const db = client.db('data'); // use your database name
   console.log('in post')
  
-  const {email,teamname } = await req.json();
- 
+  const {email,team } = await req.json();
+  console.log(team)
   console.log(`new user is ${email} `)
-  if(!email || !teamname)
+  if(!email || !team)
     return Response.json({
-        message:'error, no email, teamname provided'
+        message:'error, no email, team provided'
     })
     const filter = { email: email };
   const users = await db.collection('users').deleteOne(filter);
 
     
     const updatedteam=await db.collection('teams').updateOne(
-        { teamname: teamname },
+        { team: team },
         { $pull: { members: { email: email } } })
 
 

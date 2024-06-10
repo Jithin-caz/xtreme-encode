@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const instructions = [
   "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos saepe pariatur hic nihil odio. Quod.",
@@ -23,6 +24,8 @@ type UserData = {
 
 const createTeam = async (teamData: any) => {
   try {
+    console.log("in register team data is")
+    console.log(teamData)
     const response = await axios.post("/api/createteam", teamData);
     return response.data;
   } catch (error) {
@@ -67,7 +70,7 @@ export default function Register({ userEmail,state,onStateChange }: { userEmail:
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const teamname = userData.team;
+      const teamname = userData.team.toLowerCase();
       const members = [userData];
       const name = userData.name;
       const email = userEmail;
@@ -79,17 +82,28 @@ export default function Register({ userEmail,state,onStateChange }: { userEmail:
       console.log(members);
       const teamData = { team:teamname, members };
       const response = await createTeam(teamData);
-      const userResponse = await createUser(user);
-      onStateChange(true)
-      console.log(userResponse.message);
-      console.log(response.message);
+      if(response.message=='team name already exists')
+      {
+        toast.error("team name exists")
+        return
+      }
+      else{
+        const userResponse = await createUser(user);
+        onStateChange(true)
+        console.log(userResponse.message);
+       
+        console.log(response.message);
+      }
+    
     } catch (error) {
       setMessage("Failed to create team.");
     }
   };
 
   return (
-    <div className="flex flex-col-reverse place-items-center lg:place-items-stretch px-16 lg:px-48 py-12 lg:grid lg:grid-cols-3">
+   <div>
+    <ToastContainer/>
+     <div className="flex flex-col-reverse place-items-center lg:place-items-stretch px-16 lg:px-48 py-12 lg:grid lg:grid-cols-3">
       <div className="lg:col-span-2">
         <div className="form px-16 lg:pl-8 lg:pr-4 lg:mr-4 lg:border-r-2 lg:border-slate-300">
           <div className="font-thin text-2xl pb-8">
@@ -194,5 +208,6 @@ export default function Register({ userEmail,state,onStateChange }: { userEmail:
         </ol>
       </div>
     </div>
+   </div>
   );
 }

@@ -19,10 +19,14 @@ type UserData1 = UserData & {
   team: string;
 };
 
-const addTeammateToTeam = async (team: string, member: any) => {
+const addTeammateToTeam = async (teams: string, member: any) => {
   try {
-    const teamname=member.team
-    const response = await axios.put("/api/addteammate", {teamname , member });
+    console.log('team in add to team is')
+    console.log(teams)
+    console.log('add teammate to team')
+    console.log(member)
+    const team=teams.toLowerCase()
+    const response = await axios.put("/api/addteammate", {team , member });
     return response.data;
   } catch (error) {
     console.error("Error adding teammate to team:", error);
@@ -56,10 +60,11 @@ const fetchUser = async (email: string) => {
   }
 };
 
-const fetchTeam = async (teamname: string, mem: UserData) => {
+const fetchTeam = async (teams: string, mem: UserData) => {
   try {
+    const team=teams.toLowerCase()
     const response = await axios.post("/api/createteam", {
-      teamname,
+      team,
       members: [mem],
     });
     return response.data;
@@ -69,10 +74,11 @@ const fetchTeam = async (teamname: string, mem: UserData) => {
   }
 };
 
-const deleteUserFromTeam = async (email: string, teamname: string) => {
+const deleteUserFromTeam = async (email: string, teams: string) => {
   try {
+    const team=teams.toLowerCase()
     const response = await axios.delete("/api/deleteuser", {
-      data: { email, teamname },
+      data: { email, team },
     });
     return response.data;
   } catch (error) {
@@ -133,12 +139,15 @@ export default function Dash() {
      
 
   useEffect(() => {
-    
-    fetchTeam(currentUserData.team, currentUserData).then((team) => {
+    console.log("in dash //")
+    console.log(currentUserData)
+    fetchTeam(currentUserData.team.toLowerCase(), currentUserData).then((team) => {
       console.log("team")
+     
+      team.message != "error!! required field team not found"&&setTeamMembers(team.team.members);
+      console.log('team members are')
+      console.log(teamMembers)
       console.log(team)
-      team.message != "error!! required field teamname not found"&&setTeamMembers(team.team.members);
-      
     });
   },[currentUserData]);
 
@@ -147,14 +156,14 @@ export default function Dash() {
     try {
       const member = {...userData,team:currentUserData.team};
       const { name, email, ieeeId: IEEEID } = userData;
-      const teamname = currentUserData.team;
+      const team = currentUserData.team;
       const isLead = false;
-      const user = { name, email, IEEEID, isLead,team:teamname };
+      const user = { name, email, IEEEID, isLead,team:team };
 
       console.log(user);
       console.log(member);
 
-      const teamRes = await addTeammateToTeam(teamname, member);
+      const teamRes = await addTeammateToTeam(team, member);
      
       if (teamRes.message ==="teammate added successfully" )
       {
@@ -196,8 +205,8 @@ export default function Dash() {
   const handleDelete = async (mem: UserData) => {
     try {
       const email = mem.email;
-      const teamname = currentUserData.team;
-      const response = await deleteUserFromTeam(email, teamname);
+      const team = currentUserData.team;
+      const response = await deleteUserFromTeam(email, team);
       console.log(response.message);
 
       fetchTeam(currentUserData.team, currentUserData).then((team) => {

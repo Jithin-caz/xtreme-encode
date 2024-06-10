@@ -9,13 +9,13 @@ export async function POST(req:any)
     const db = client.db('data'); // use your database name
   console.log('in post team create')
  
-  const { teamname, members } = await req.json();
+  const { team, members } = await req.json();
   const newTeam= {
-    teamname,
+    team,
     members,
     registered:false
   };
-  const existingteam = await db.collection('teams').findOne({ teamname:teamname });
+  const existingteam = await db.collection('teams').findOne({ team:team });
   if (existingteam) {
     return Response.json({
       message:"team name already exists",
@@ -23,10 +23,10 @@ export async function POST(req:any)
     })
   }
 
-  console.log(`new team is ${teamname} `)
-  if(!teamname )
+  console.log(`new team is ${team} `)
+  if(!team )
     return Response.json({
-        message:'error!! required field teamname not found'
+        message:'error!! required field team not found'
     })
 
   const teams = await db.collection('teams').insertOne(newTeam);

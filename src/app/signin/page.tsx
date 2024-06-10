@@ -75,8 +75,8 @@ const handlesubmitlogin=async(e:any)=>
          localStorage.setItem("email",data.user.email)
        
          if(!data.user.emailVerified)
-         notify("email not verified")
-    
+            toast.error("email not verified. Please verify your email and login again")
+        else
             if(data.user)
             {
                  //@ts-ignore
@@ -85,7 +85,7 @@ const handlesubmitlogin=async(e:any)=>
                  ref.current.click()
             }
            
-    }).catch((err)=>alert('error'))
+    }).catch((err)=>toast.error(""+err))
 }
 
 const handleformSignup=async(e:any)=>{
@@ -93,16 +93,22 @@ const handleformSignup=async(e:any)=>{
     if(password!=confpassword)
         alert("passwords dont match")
     await createUserWithEmailAndPassword(auth,email,password).then((data)=>{
-        //@ts-ignore
-         sendEmailVerification(auth.currentUser).then(()=>alert("email verification link sent"))  
+       
+        console.log(`current user is`)
+        console.log(auth.currentUser)
+         //@ts-ignore
+         sendEmailVerification(auth.currentUser).then(()=>toast.error("email verification link sent"))  
         console.log(data.user)
             setvalue(data.user)
              //@ts-ignore
             localStorage.setItem("email",data.user.email)
            
             if(!data.user.emailVerified)
-            notify("email not verified")
-       
+            {
+                toast.error("email not verified. Please verify your email and login again")
+            }
+           else
+           {
             if(data.user)
             {
                  //@ts-ignore
@@ -110,11 +116,12 @@ const handleformSignup=async(e:any)=>{
               //@ts-ignore
             ref.current.click()
             }
+           }
+           
            
             console.log(`email verified? ${data.user.emailVerified}`)
     }).catch((err)=>{
-        setSignup(false)
-        alert('email already exist. Please login')
+         toast.error(""+err)     
     })
 }
    

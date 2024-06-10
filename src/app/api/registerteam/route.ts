@@ -9,10 +9,15 @@ export async function PUT(req:any)
     const db = client.db('data'); // use your database name
   console.log('in post')
  
-  const { teamname } = await req.json();
+  const { team } = await req.json();
+   if(!team)
+    //@ts-ignore
+   return Response.json({
+    message:"required field teamnot found",
    
+  })
   const teams = await db.collection('teams').updateOne(
-    { teamname: teamname },
+    { team: team },
     {$set: { registered: true } }
 );
  

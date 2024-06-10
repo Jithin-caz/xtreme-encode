@@ -31,7 +31,7 @@ export default function Dashboard() {
   const [loading,setLoading]=useState(false)
 const fetchTeam=async(teamname:string)=>{
   await axios.post('api/createteam',{
-    teamname
+    team:teamname.toLowerCase()
 }).then((res)=>{
    
     setTeamRegistered(res.data.team.registered)

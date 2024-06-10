@@ -9,11 +9,11 @@ export async function PUT(req:any)
     const db = client.db('data'); // use your database name
   console.log('in post')
  
-  const { teamname,member } = await req.json();
+  const { team,member } = await req.json();
   
-  if(!teamname || !member)
+  if(!team || !member)
     return Response.json({
-        message:'error!! required field teamname,member not found'
+        message:'error!! required field team,member not found'
     })
 
     const allteams=await db.collection('teams').find({}).toArray()
@@ -25,14 +25,14 @@ export async function PUT(req:any)
         }
     }
 
-    const fetchteam=await db.collection('teams').findOne({teamname:teamname})
+    const fetchteam=await db.collection('teams').findOne({team:team})
     if(fetchteam.members.length==3)
         return Response.json({
             message:"team full"
         })
 
   const teams = await db.collection('teams').updateOne(
-    { teamname: teamname },
+    { team: team },
     { $push: { members: member } }
 );
  
