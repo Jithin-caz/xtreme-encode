@@ -16,9 +16,9 @@ export default function Register()
     const notify = (msg:string)=>{
         toast.error(msg)
     }
-    const createCookie=async(email:string)=>{
-         await axios.post("/api/createCookie",{email}).then((res)=>console.log(res)).catch((err)=>console.log(err));
-    }
+    // const createCookie=async(email:string)=>{
+    //      await axios.post("/api/createCookie",{email}).then((res)=>console.log(res)).catch((err)=>console.log(err));
+    // }
     const ref=useRef(null)
 
     const [value,setvalue]=useState<any | null>()
@@ -34,7 +34,7 @@ export default function Register()
              {
                 console.log(`verified is : ${data.user.emailVerified}`)
                  //@ts-ignore
-             createCookie(data.user.email)
+             //createCookie(data.user.email)
                //@ts-ignore
               ref.current.click()
              }
@@ -53,7 +53,7 @@ export default function Register()
                 console.log(data.user)
              if(data.user){
                  //@ts-ignore
-             createCookie(data.user.email)
+             //createCookie(data.user.email)
              //@ts-ignore
              ref.current.click()}
                 // localStorage.setItem("email",data.user.email)
@@ -80,7 +80,7 @@ const handlesubmitlogin=async(e:any)=>
             if(data.user)
             {
                  //@ts-ignore
-                createCookie(data.user.email)
+                //createCookie(data.user.email)
                 //@ts-ignore
                  ref.current.click()
             }
@@ -112,7 +112,7 @@ const handleformSignup=async(e:any)=>{
             if(data.user)
             {
                  //@ts-ignore
-            createCookie(data.user.email)
+            //createCookie(data.user.email)
               //@ts-ignore
             ref.current.click()
             }

@@ -28,22 +28,22 @@ import { Validate } from "@/utils/validator";
 //   }
 // }
 export async function POST(req: NextRequest) {
-  const cookies = req.cookies.get("authCookie");
+  // const cookies = req.cookies.get("authCookie");
   const { authemail,name, email, IEEEID, isLead, team } = await req.json();
  
-  if(!cookies)
-  {
-    return Response.json({
-      message:"UNAUTHORISED"
-    })
-  }
-  const validated=await Validate(authemail,cookies?.value)
-  if(!validated)
-  {
-    return Response.json({
-      message:"UNAUTHORISED"
-    })
-  }
+  // if(!cookies)
+  // {
+  //   return Response.json({
+  //     message:"UNAUTHORISED"
+  //   })
+  // }
+  // const validated=await Validate(authemail,cookies?.value)
+  // if(!validated)
+  // {
+  //   return Response.json({
+  //     message:"UNAUTHORISED"
+  //   })
+  // }
   //@ts-ignore
   const client = await clientPromise;
   const db = client.db("data"); // use your database name
@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
     return Response.json({
       message: "email already exists",
       user: existingUser,
-      cookies:cookies
+      
     });
   }
 
