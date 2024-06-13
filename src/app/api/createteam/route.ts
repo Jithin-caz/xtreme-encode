@@ -9,10 +9,11 @@ export async function POST(req:any)
     const db = client.db('data'); // use your database name
   console.log('in post team create')
  
-  const { team, members } = await req.json();
+  const { team, members ,score} = await req.json();
   const newTeam= {
     team,
     members,
+    score:0,
     registered:false
   };
   const existingteam = await db.collection('teams').findOne({ team:team });

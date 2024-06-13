@@ -221,9 +221,9 @@ export default function Dash() {
     <div className="container relative flex flex-col place-items-center place-content-center">
                 <ToastContainer />
 
-      <div className="py-16 px-48 w-full">
-        <div className="text-3xl py-8">Welcome {currentUserData.name}</div>
-        <div className="border-b-2 border-white flex justify-between mb-8">
+      <div className="py-16 md:px-48 w-full">
+        <div className="px-4 text-3xl py-8">Welcome {currentUserData.name}</div>
+        <div className="px-4 border-b-2 border-white flex justify-between mb-8">
           <h2 className="text-2xl ">{currentUserData.team}</h2>
           <button
             className=" bg-blue-700 px-4 m-1 border-2 border-slate-600 hover:bg-blue-400 duration-150 rounded-sm"
@@ -233,7 +233,7 @@ export default function Dash() {
           </button>
         </div>
         
-        <div className="flex flex-col md:grid md:grid-cols-3 md:gap-x-4">
+        <div className="px-4 flex flex-col md:grid md:grid-cols-3 md:gap-x-4 gap-y-4">
           <div className="cols-span-1 p-8 min-w-50 rounded-sm bg-slate-800">
             <div className="flex justify-between">
               <h3 className="text-2xl pb-4">Team Leader</h3>
