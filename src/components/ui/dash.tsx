@@ -4,6 +4,19 @@ import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const instructions = [
+  "The competition will be for 6 weeks (from July 22 - August 31)",
+  "Weekly coding rounds are conducted every Saturday and Sunday (4:00 pm IST - 10:00 pmIST on both days)",
+  "There will be 6 questions during each day which will be released in sets of two (First set at4:00 pm IST, second set at 6:00 pm IST and third set at 8:00 pm IST)",
+  "There will be 12 questions a week and 72 questions during the entire event.",
+  "Apart from the weekend, there will be a bonus question available to solve during theweekdays (Releases at 10:00 pm IST on Monday and closes at 10:00 pm IST on Friday)",
+  "The difficulty level of the questions will be ‘Easy’ in the beginning and gradually increase to‘Medium’ and ‘Hard’.",
+  "Every team member can attend to all the questions available at that time.",
+  "If more than one member of a team scores points for a question, only the highest pointsamong them will be considered for the team total.",
+  "The team leaderboards will be updated every Monday.",
+  " The top teams at the end of the event will be awarded prizes and goodies. They will be alsopresented with other opportunities.",
+];
+
 type UserData = {
   name: string;
   country: string;
@@ -284,6 +297,16 @@ export default function Dash() {
           >
             Register
           </a>
+        </div>
+        <div className="felx flex-col bg-slate-700 mt-10 p-8">
+          <h2 className="text-2xl px-4 pb-4">Instructions</h2>
+          <ol className="font-mono text-sm px-4 pl-6">
+            {instructions.map((i, index) => (
+              <li key={index} className="pb-2">
+                {index + 1}. {i}
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
       {addMember && (
