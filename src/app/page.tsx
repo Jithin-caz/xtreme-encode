@@ -1,18 +1,16 @@
-"use client"
+"use client";
 import { Suspense, useEffect, useState } from "react";
 import Register from "@/app/signin/page";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import Loading from "./loading";
 import { Provider } from "react-redux";
-
+import Navbar from "@/components/ui/navbar-home";
 
 export default function Home() {
- 
   return (
-   
-      <main className=" bg-black re">
+    <main className=" bg-black re">
+      <Navbar></Navbar>
       <i>
-      
         <img
           src="images/encide_logo-removebg-preview.png"
           className=" w-40 absolute z-30 right-2"
@@ -23,14 +21,18 @@ export default function Home() {
       <HeroHighlight className=" font-bold text-7xl px-5 flex flex-col gap-5">
         <div className="text-white  font-bold">
           <div className=" text-xl font-medium text-white">
-            ENCIDE MACE in colaboration with IEEE XTREME region 10 presents
+            ENCIDE MACE in collaboration with IEEE XTREME 18.0 region 10
+            presents
           </div>
-          Xtreme Encode 
+          XTREME ENCODE
         </div>
         <Highlight>code,more code, repeat</Highlight>
+        <div className="text-xl text-white">
+          22nd July 2024 - 31st August 2024
+        </div>
         <a
           href="#REGISTER"
-          className=" mt-6 bg-blue-600 text-white text-xl font-normal w-fit rounded-md p-2 px-4  hover:bg-blue-700"
+          className=" mt-2 bg-blue-600 text-white text-xl font-normal w-fit rounded-md p-2 px-4  hover:bg-blue-700"
         >
           register now {"->"}
         </a>
@@ -72,7 +74,6 @@ export default function Home() {
         </div>
       </HeroHighlight>
       <Register />
-    </main>  
-   
+    </main>
   );
 }
