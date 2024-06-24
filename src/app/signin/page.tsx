@@ -161,7 +161,7 @@ const handleformSignup = async (e: React.FormEvent<HTMLFormElement>) => {
 
     const [signup,setSignup]=useState(true)
    
-    return <div className=" h-lvh">
+    return <div className=" min-h-lvh ">
         <ToastContainer />
         <div className=" grid grid-cols-1 lg:grid-cols-2 h-full" id="REGISTER">
        

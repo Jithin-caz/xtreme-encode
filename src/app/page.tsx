@@ -5,7 +5,7 @@ import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import Loading from "./loading";
 import { Provider } from "react-redux";
 import Navbar from "@/components/ui/navbar-home";
-
+import Footerhome from "@/components/ui/footer_home";
 export default function Home() {
   return (
     <main className=" bg-black re">
@@ -74,6 +74,7 @@ export default function Home() {
         </div>
       </HeroHighlight>
       <Register />
+    <Footerhome/>
     </main>
   );
 }
