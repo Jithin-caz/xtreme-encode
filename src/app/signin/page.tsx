@@ -66,11 +66,11 @@ export default function Register()
 const handlesubmitlogin=async(e:any)=>
 {
     e.preventDefault()
-    if(password!=confpassword)
-    {
-        toast.error("passwords dont match",{position: "top-center"})
-        return
-    }
+    // if(password!=confpassword)
+    // {
+    //     toast.error("passwords dont match",{position: "top-center"})
+    //     return
+    // }
     
         await signInWithEmailAndPassword(auth,email,password).then((data)=>{
             console.log('in verification area')
@@ -159,9 +159,9 @@ const handleformSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     
 };
 
-    const [signup,setSignup]=useState(true)
+    const [signup,setSignup]=useState(false)
    
-    return <div className=" min-h-lvh ">
+    return <div >
         <ToastContainer />
         <div className=" grid grid-cols-1 lg:grid-cols-2 h-full" id="REGISTER">
        
@@ -175,7 +175,7 @@ const handleformSignup = async (e: React.FormEvent<HTMLFormElement>) => {
            {signup&&<input required placeholder='name'  className='ease-in-out duration-500 focus:text-lg outline-none w-full mt-4 p-2 py-4  bg-transparent  border-b-2 border-slate-800 hover:border-white' type="text" name="" id="" />} 
         <input value={email} onChange={(e)=>setEmail(e.target.value)} required placeholder='email' className='ease-in-out duration-500 focus:text-lg outline-none w-full p-2 py-4 mt-4 bg-transparent border-b-2  border-slate-800 hover:border-white' type="email" name="" id="" />
        <input value={password} onChange={(e)=>setPassword(e.target.value)}  required placeholder='password' className='ease-in-out duration-500 focus:text-lg outline-none w-full mt-4 p-2 py-4  bg-transparent  border-b-2  border-slate-800 hover:border-white' type="password" name="" id="" />
-       <input value={confpassword} onChange={(e)=>setconfPassword(e.target.value)} required placeholder='confirm password' className='ease-in-out duration-500 focus:text-lg outline-none w-full mt-4 p-2 py-4  bg-transparent  border-b-2  border-slate-800 hover:border-white' type="text" name="" id="" />
+       {signup&&<input value={confpassword} onChange={(e)=>setconfPassword(e.target.value)} required placeholder='confirm password' className='ease-in-out duration-500 focus:text-lg outline-none w-full mt-4 p-2 py-4  bg-transparent  border-b-2  border-slate-800 hover:border-white' type="text" name="" id="" />}
        <button className=' rounded-md max-w-28 mt-6 h-14 bg-slate-800 hover:bg-slate-900 ease-in-out duration-500  text-lg font-semibold hover:text-2xl p-2 px-3 text-white' type="submit">submit</button>
       <div className=" pt-4 flex"><p className=" opacity-60">{signup? 'already register?':'new here?'} </p><button className=" text-white pl-1" onClick={()=>{
          setEmail('')
