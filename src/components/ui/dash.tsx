@@ -310,7 +310,7 @@ export default function Dash() {
         </div>
       </div>
       {addMember && (
-        <div className="form absolute w-1/2 bg-slate-900 px-16 py-8 shadow-gray-800 shadow-lg rounded">
+        <div className="form absolute w-1/2 bg-slate-900 lg:px-16 py-8 shadow-gray-800 shadow-lg rounded">
           <div className="flex justify-between">
             <div className="text-xl pb-8">Enter Team member detail</div>
             <div className="p-1">
@@ -332,7 +332,7 @@ export default function Dash() {
               </svg>
             </div>
           </div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className=" px-2">
             <div className="flex flex-col pb-8">
               <input
                 type="text"
