@@ -72,7 +72,7 @@ export default function Register({
     const { name, value } = e.target;
     setUserData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: value.trim(),
     }));
   };
 
