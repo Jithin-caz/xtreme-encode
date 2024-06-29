@@ -389,7 +389,7 @@ export default function Dash() {
               <input
                 type="text"
                 name="branch"
-                required
+               
                 placeholder="IEEE Student Branch"
                 value={userData.branch}
                 onChange={handleChange}
