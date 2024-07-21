@@ -72,7 +72,7 @@ export default function Register({
     const { name, value } = e.target;
     setUserData((prevData) => ({
       ...prevData,
-      [name]: value.trim(),
+      [name]: value,
     }));
   };
 
@@ -84,7 +84,7 @@ export default function Register({
       const name = userData.name;
       const email = userEmail;
       const IEEEID = userData.ieeeId;
-      const team = userData.team;
+      const team = userData.team.trim();
       const isLead = true;
       const user = { name, email, IEEEID, isLead, team };
       console.log(user);

@@ -171,7 +171,7 @@ export default function Dash() {
       const { name, email, ieeeId: IEEEID } = userData;
       const team = currentUserData.team;
       const isLead = false;
-      const user = { name, email, IEEEID, isLead, team: team };
+      const user = { name:name, email, IEEEID, isLead, team: team };
 
       console.log(user);
       console.log(member);
@@ -206,7 +206,7 @@ export default function Dash() {
     const { name, value } = e.target;
     setUserData((prevData) => ({
       ...prevData,
-      [name]: value.trimEnd().trimStart(),
+      [name]: value,
     }));
   };
 
