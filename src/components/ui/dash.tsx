@@ -206,7 +206,7 @@ export default function Dash() {
     const { name, value } = e.target;
     setUserData((prevData) => ({
       ...prevData,
-      [name]: value.trim(),
+      [name]: value.trimEnd().trimStart(),
     }));
   };
 
