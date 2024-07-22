@@ -25,14 +25,14 @@ export async function PUT(req:any)
         }
     }
 
-    const fetchteam=await db.collection('teams').findOne({team:team})
+    const fetchteam=await db.collection('teams').findOne({team:team.toLowerCase()})
     if(fetchteam.members.length==3)
         return Response.json({
             message:"team full"
         })
 
   const teams = await db.collection('teams').updateOne(
-    { team: team },
+    { team: team.toLowerCase() },
     { $push: { members: member } }
 );
  
