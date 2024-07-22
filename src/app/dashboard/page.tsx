@@ -7,6 +7,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import Loading from "../loading";
+import RegClosed from "../Registrationclosed/page";
 
 
 const fetchUser = async (email: string) => {
@@ -60,8 +61,10 @@ const fetchTeam=async(teamname:string)=>{
     loading?
     <div className="text-white">
       <Navbar></Navbar>
-      {!userExist && <Register state={userExist} onStateChange={handleChange} userEmail={email}></Register>} 
-      {userExist&&!teamRegistedred && <Dash></Dash>}  
+      {/* {!userExist && <Register state={userExist} onStateChange={handleChange} userEmail={email}></Register>}  */}
+      {!userExist &&<RegClosed/>} 
+      {/* {userExist&&!teamRegistedred && <Dash></Dash>}   */}
+      {userExist&&!teamRegistedred && <RegClosed/>}  
       {teamRegistedred && <FinalRegistration/>}  
 </div>:<Loading/>
   );
