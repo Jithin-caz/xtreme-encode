@@ -84,7 +84,7 @@ export default function Register({
       const name = userData.name;
       const email = userEmail;
       const IEEEID = userData.ieeeId;
-      const team = userData.team.trim();
+      const team = userData.team.trimStart().trimStart();
       const isLead = true;
       const user = { name, email, IEEEID, isLead, team };
       console.log(user);
