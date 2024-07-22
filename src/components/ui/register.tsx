@@ -79,7 +79,7 @@ export default function Register({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const teamname = userData.team.toLowerCase();
+      const teamname = userData.team.toLowerCase().trimStart().trimStart();
       const members = [userData];
       const name = userData.name;
       const email = userEmail;
