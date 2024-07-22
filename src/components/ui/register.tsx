@@ -79,12 +79,12 @@ export default function Register({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const teamname = userData.team.toLowerCase().trimStart().trimStart();
+      const teamname = userData.team.toLowerCase().trimStart().trimEnd();
       const members = [userData];
       const name = userData.name;
       const email = userEmail;
       const IEEEID = userData.ieeeId;
-      const team = userData.team.trimStart().trimStart();
+      const team = userData.team.trimStart().trimEnd();
       const isLead = true;
       const user = { name, email, IEEEID, isLead, team };
       console.log(user);
