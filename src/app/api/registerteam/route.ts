@@ -17,7 +17,7 @@ export async function PUT(req:any)
    
   })
   const teams = await db.collection('teams').updateOne(
-    { team: team },
+    { team: team.toLowerCase().trim() },
     {$set: { registered: true } }
 );
  

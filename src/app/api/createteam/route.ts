@@ -11,12 +11,12 @@ export async function POST(req:any)
  
   const { team, members ,score} = await req.json();
   const newTeam= {
-    team,
+    team:team.toLowerCase().trim(),
     members,
     score:0,
     registered:false
   };
-  const existingteam = await db.collection('teams').findOne({ team:team });
+  const existingteam = await db.collection('teams').findOne({ team:team.toLowerCase().trim()  });
   if (existingteam) {
     return Response.json({
       message:"team name already exists",

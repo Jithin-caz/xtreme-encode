@@ -19,7 +19,7 @@ export async function DELETE(req:any)
 
     
     const updatedteam=await db.collection('teams').updateOne(
-        { team: team },
+        { team: team.toLowerCase().trim()  },
         { $pull: { members: { email: email } } })
 
 

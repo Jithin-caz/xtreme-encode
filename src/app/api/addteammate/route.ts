@@ -10,7 +10,7 @@ export async function PUT(req:any)
   console.log('in post')
  
   const { team,member } = await req.json();
-  
+ 
   if(!team || !member)
     return Response.json({
         message:'error!! required field team,member not found'
@@ -25,14 +25,14 @@ export async function PUT(req:any)
         }
     }
 
-    const fetchteam=await db.collection('teams').findOne({team:team.toLowerCase()})
+    const fetchteam=await db.collection('teams').findOne({team:team.toLowerCase().trim()})
     if(fetchteam.members.length==3)
         return Response.json({
             message:"team full"
         })
 
   const teams = await db.collection('teams').updateOne(
-    { team: team.toLowerCase() },
+    { team: team.toLowerCase().trim() },
     { $push: { members: member } }
 );
  
