@@ -31,7 +31,9 @@ export default function LeaderBoard(){
                 </tr>
             </thead>
             <tbody className=" max-h-dvh overflow-scroll">
-            {teams.map((team,index)=><tr key={index}>
+            {teams.map((team,index)=>
+            team.score!=null&&
+            <tr key={index}>
                 <td  className="px-5 py-3 text-white text-center">
                     {index+1}
                 </td>
