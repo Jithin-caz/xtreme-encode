@@ -7,7 +7,7 @@ export async function GET(req:any, res:any)
   //@ts-ignore
   const client = await clientPromise;
   const db = client.db('data');
-  const teams = await db.collection('teamtemp')
+  const teams = await db.collection('teams')
   .find({ score: { $ne: 0 }  })
   .sort({ score: -1 }) 
   .toArray();
