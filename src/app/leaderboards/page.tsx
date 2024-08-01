@@ -38,7 +38,8 @@ export default function LeaderBoard(){
                 <td  className="px-5 py-3 text-white text-center">
                     {
                      //@ts-ignore
-                    team.team}
+                    team.TeamName
+                }
                 </td>
                 <td  className="px-5 py-3 text-white text-center">
                 {
