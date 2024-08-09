@@ -412,7 +412,7 @@ export default function Dash() {
                 type="submit"
                 className="w-1/4 min-w-24 bg-blue-700 py-2 rounded-sm"
               >
-                Add members
+                Add member
               </button>
             </div>
           </form>
