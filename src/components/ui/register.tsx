@@ -121,7 +121,7 @@ export default function Register({
                   type="text"
                   name="name"
                   required
-                  placeholder="Name"
+                  placeholder="Nam"
                   value={userData.name}
                   onChange={handleChange}
                   className="bg-transparent border-b-2 border-slate-400 focus:border-y-2 focus:border-blue-400 duration-200"
