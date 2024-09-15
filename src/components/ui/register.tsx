@@ -119,7 +119,7 @@ export default function Register({
               <div className="flex flex-col pb-8">
                 <input
                   type="text"
-                  name="name"
+                  name="nam"
                   required
                   placeholder="Name"
                   value={userData.name}
